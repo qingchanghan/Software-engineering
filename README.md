@@ -1,2 +1,4 @@
-# Software-engineering
-the projects of software engineering class
+The first project of software engineering class.
+
+subway.cpp
+beijing-subway.txt
