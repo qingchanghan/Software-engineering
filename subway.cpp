@@ -122,7 +122,7 @@ class station {
 }; 
 
 vector<station> list;//存储站点对象的容器
-int matrix[275][275];//邻接矩阵
+int matrix[276][276];//邻接矩阵
 int startStation[22] = { -1, 0, 23, -1, 39, 71, 91, 115, 134, 150, 159, -1, -1,
 						38, 203, 214, 230, 21, 250, 71, 264, 27 };
 string lines[22] = { "", "地铁一号线", "地铁二号线", "", "地铁四号线", "地铁五号线", "地铁六号线", "地铁七号线", "地铁八号线",
@@ -239,9 +239,9 @@ vector<int> commonLine(station sta1, station sta2)
 void shortestRoute(int sta1, int sta2)
 {
 	//初始化
-	int s[275], dis[275];
-	vector<int> path[275];
-	for (int i = 0; i < 275; i++) {
+	int s[276], dis[276];
+	vector<int> path[276];
+	for (int i = 0; i < 276; i++) {
 		dis[i] = matrix[sta1][i];
 		s[i] = 0;
 		path[i].push_back(sta1);
@@ -251,7 +251,7 @@ void shortestRoute(int sta1, int sta2)
 	//dijkstra算法
 	while (s[sta2] == 0) {
 		int u, minDis = MAX;
-		for (int i = 0; i < 275; i++) {
+		for (int i = 0; i < 276; i++) {
 			if (s[i] == 1)
 				continue;
 			if (dis[i] < minDis) {
@@ -262,7 +262,7 @@ void shortestRoute(int sta1, int sta2)
 		path[u].push_back(u);
 		s[u] = 1;
 
-		for (int i = 0; i < 275; i++) {
+		for (int i = 0; i < 276; i++) {
 			if (s[i] == 1 || matrix[u][i] != 1)
 				continue;
 			if (dis[u] + 1 < dis[i]) {
@@ -575,8 +575,8 @@ void transfer1(string name1, string name2)
 int main(int argc, char *argv[]) 
 {
 	//邻接矩阵初始化
-	for (int i = 0; i < 275; i++)
-		for (int j = 0; j < 275; j++) {
+	for (int i = 0; i < 276; i++)
+		for (int j = 0; j < 276; j++) {
 			if (i == j)
 				matrix[i][j] = 0;
 			else
@@ -684,10 +684,32 @@ int main(int argc, char *argv[])
 
 	string ins;
 	while (getline(cin, ins)) {
-		if (ins[0] == 'd') {
+		if (ins[0] == '-' && (ins[1] == 'b' || ins[1] == 'c')) {
+			string name1 = "", name2 = "";
+			unsigned int i;
+			for (i = 2; i < ins.size() && (ins[i] == ' ' || ins[i] == '\t'); i++);
+			for (; i < ins.size() && ins[i] != ' ' && ins[i] != '\t'; i++) {
+				if (ins[i] == ' ' || ins[i] == '\t')
+					break;
+				name1 = name1 + ins[i];
+			}
+			for (; i < ins.size() && ins[i] == ' ' && ins[i] == '\t'; i++);
+			for (; i < ins.size(); i++) {
+				if (ins[i] == ' ' || ins[i] == '\t')
+					continue;
+				name2 = name2 + ins[i];
+			}
+			if (ins[1] == 'b') {
+				shortest(name1, name2);
+			}
+			else if (ins[1] == 'c') {
+				transfer1(name1, name2);
+			}
+		}
+		else {
 			string lineName;
 			unsigned int i;
-			for (i = 1; ins[i] == ' ' || ins[i] == '\t'; i++);
+			for (i = 0; ins[i] == ' ' || ins[i] == '\t'; i++);//略去空格和制表符
 			for (; i < ins.size(); i++) {
 				if (ins[i] == ' ' || ins[i] == '\t')
 					continue;
@@ -695,46 +717,8 @@ int main(int argc, char *argv[])
 			}
 			allStations(lineName);
 		}
-		else if (ins[0] == 'b') {
-			string name1 = "", name2 = "";
-			unsigned int i;
-			for (i = 1; ins[i] == ' ' || ins[i] == '\t'; i++);
-			for (; ins[i] != ' ' && ins[i] != '\t'; i++) {
-				if (ins[i] == ' ' || ins[i] == '\t')
-					continue;
-				name1 = name1 + ins[i];
-			}
-			for (; ins[i] == ' ' || ins[i] == '\t'; i++);
-			for (; i < ins.size(); i++) {
-				if (ins[i] == ' ' || ins[i] == '\t')
-					continue;
-				name2 = name2 + ins[i];
-			}
-			shortest(name1, name2);
-		}
-		else if (ins[0] == 'c') {
-			string name1 = "", name2 = "";
-			unsigned int i;
-			for (i = 1; ins[i] == ' ' || ins[i] == '\t'; i++);
-			for (; ins[i] != ' ' && ins[i] != '\t'; i++) {
-				if (ins[i] == ' ' || ins[i] == '\t')
-					continue;
-				name1 = name1 + ins[i];
-			}
-			for (; ins[i] == ' ' || ins[i] == '\t'; i++);
-			for (; i < ins.size(); i++) {
-				if (ins[i] == ' ' || ins[i] == '\t')
-					continue;
-				name2 = name2 + ins[i];
-			}
-			transfer1(name1, name2);
-		}
 	}
 
-	/*while (true) {
-		allStations();
-	}*/
 	system("pause");
-
 	return 0;
 }
