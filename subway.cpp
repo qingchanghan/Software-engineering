@@ -17,7 +17,7 @@ class station {
 			nextToStationNo = nextToStationNo0;
 		}
 
-		void print() 
+		void print()
 		{
 			cout << "站点序号: " << no << " ";
 			cout << "站点名称: " << name << " ";
@@ -84,7 +84,7 @@ class station {
 			return name;
 		}
 
-		bool ifName(string name0) 
+		bool ifName(string name0)
 		{
 			if (name0 == name)
 				return true;
@@ -119,7 +119,7 @@ class station {
 		string name;
 		int lineNum, nextToStationNum;
 		vector<int> lineNo, nextToStationNo;
-}; 
+};
 
 vector<station> list;//存储站点对象的容器
 int matrix[276][276];//邻接矩阵
@@ -152,7 +152,7 @@ void searchAllStations(int line)
 }
 
 //从输入获取线路名称
-void allStations(string name) 
+void allStations(string name)
 {
 	/*cout << "请输入某线路名称：" << endl;
 	string name;
@@ -277,7 +277,7 @@ void shortestRoute(int sta1, int sta2)
 	cout << path[sta2].size() << endl;
 	int lastLine, nextLine;
 	vector<int> common = commonLine(list[path[sta2][0]], list[path[sta2][1]]);
-	
+
 	if (common.size() == 0) {
 		cerr << "路线出错" << endl;
 		return;
@@ -367,7 +367,7 @@ void printDirect(int sta1, int sta2, int flag)
 				minLength = length;
 				minNo = m - 1;
 			}
-			
+
 		}
 	}
 	if (minNo != -1) {
@@ -572,7 +572,7 @@ void transfer1(string name1, string name2)
 	transfer2(sta1, sta2);
 }
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
 	//邻接矩阵初始化
 	for (int i = 0; i < 276; i++)
@@ -582,9 +582,9 @@ int main(int argc, char *argv[])
 			else
 				matrix[i][j] = MAX;
 		}
-	
+
 	ifstream in; //ifstream读文件
-	string filename = "D:\\beijing-subway.txt";
+	char filename[] = "beijing-subway.txt";
 
 	in.open(filename);//不加打开方式 默认以in方式打开
 
@@ -651,7 +651,7 @@ int main(int argc, char *argv[])
 			//设置邻接矩阵
 			matrix[no][sum] = 1;
 		}
-		
+
 		//读取完毕，加入站点列表
 		station s = station(no, name, lineNum, lineNo, nextToStationNum, nextToStationNo);
 		list.push_back(s);
@@ -719,6 +719,5 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	system("pause");
 	return 0;
 }
